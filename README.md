@@ -1,0 +1,2 @@
+# stanix
+Nix Hyprland Configurations
