@@ -1,6 +1,0 @@
-2024/09/04-06:58:40.646 4de Creating DB /home/stan/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_mynixos.com_0.indexeddb.leveldb since it was missing.
-2024/09/04-06:58:40.653 4de Reusing MANIFEST /home/stan/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_mynixos.com_0.indexeddb.leveldb/MANIFEST-000001
-2024/09/04-06:58:40.666 4e9 Level-0 table #5: started
-2024/09/04-06:58:40.670 4e9 Level-0 table #5: 1317 bytes OK
-2024/09/04-06:58:40.673 4e9 Delete type=0 #3
-2024/09/04-06:58:40.673 4df Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
