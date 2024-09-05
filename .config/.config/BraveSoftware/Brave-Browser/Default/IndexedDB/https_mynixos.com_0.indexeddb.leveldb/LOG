@@ -1,0 +1,7 @@
+2024/09/04-19:08:06.748 5e1 Reusing MANIFEST /home/stan/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_mynixos.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/09/04-19:08:06.748 5e1 Recovering log #4
+2024/09/04-19:08:06.748 5e1 Reusing old log /home/stan/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_mynixos.com_0.indexeddb.leveldb/000004.log 
+2024/09/04-19:08:06.756 5ea Level-0 table #8: started
+2024/09/04-19:08:06.758 5ea Level-0 table #8: 3177 bytes OK
+2024/09/04-19:08:06.761 5ea Delete type=0 #4
+2024/09/04-19:08:06.761 5e2 Manual compaction at level-0 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)

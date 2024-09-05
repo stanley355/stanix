@@ -1,0 +1,6 @@
+2024/09/04-07:57:47.241 575 Reusing MANIFEST /home/stan/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.youtube.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/09/04-07:57:47.241 575 Recovering log #3
+2024/09/04-07:57:47.248 575 Reusing old log /home/stan/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.youtube.com_0.indexeddb.leveldb/000003.log 
+2024/09/04-07:57:48.732 574 Level-0 table #5: started
+2024/09/04-07:57:48.740 574 Level-0 table #5: 1316093 bytes OK
+2024/09/04-07:57:48.743 574 Delete type=0 #3
