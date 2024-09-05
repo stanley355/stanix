@@ -26,6 +26,7 @@
     variant = "";
   };
 
+  # Change to your name
   users.users.stan = {
     isNormalUser = true;
     description = "stan";
@@ -36,61 +37,81 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.pulseaudio = true;
 
+  # All necessary packages recommended by https://wiki.hyprland.org/
   environment.systemPackages = with pkgs; [
-	brave
-	blueberry
+	appimage-run # Paired with appimage-run to run .AppImage files
+	brave # browser
+	blueberry #bluetooth
 	dunst
-	eww
 	git
 	hyprcursor
 	hypridle
 	hyprlock
 	hyprpaper
 	hyprpicker
-	kitty 
+	kitty
+	libsecret # Paired with appimage-run to run .AppImage files
 	neofetch
 	networkmanagerapplet
 	pipewire
-	polkit
+	polkit # Priviledge management
 	rofi
 	rofi-bluetooth
 	rofi-screenshot
 	rofi-power-menu
 	vim
-	waybar
+	waybar # Alternative: eww
 	webcord
 	wireplumber
   	wget
+	xdg-desktop-portal-gtk
 	xdg-desktop-portal-hyprland
   ];
 
   programs = {
+	appimage.binfmt = true; # .AppImage files as executable bin
 	light.enable = true;
 	hyprland.enable = true;
 	sway.enable = true;
 	sway.wrapperFeatures.gtk = true;
-	thunar.enable = true;
-	xfconf.enable = true;
+	thunar.enable = true; #File managers
+	xfconf.enable = true; #Required for Thunar https://nixos.wiki/wiki/Thunar
   };
 
-  # Load nvidia driver for Xorg and Wayland
-  services.gnome.gnome-keyring.enable = true;
+  programs.bash.shellAliases = {
+  };
+
+  # Nvidia: Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];
+
+  services.gnome.gnome-keyring.enable = true;
   services.pipewire = {
 	enable = true;
 	audio.enable = true;
 	pulse.enable = true;
 	alsa.enable = true;
-    	alsa.support32Bit = true;
+    alsa.support32Bit = true;
 	jack.enable = true;
 	wireplumber.enable = true;
   };
 
-  hardware = {
-    bluetooth.enable = true;
-    opengl.enable = true;
+  # Some apps can't open file if xdg.portal is not enabled
+  # Don't forget to restart your xdg-desktop-portal-gtk.service
+  xdg.portal = {
+    xdgOpenUsePortal = true;
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+    ];
   };
 
+  hardware = {
+    bluetooth.enable = true;
+    opengl.enable = true; # Nvidia: Enable opengl for
+  };
+
+  # Nvidia
   hardware.nvidia = {
 
     # Modesetting is required.
@@ -98,7 +119,7 @@
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
     # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
     # of just the bare essentials.
     powerManagement.enable = false;
 
@@ -108,9 +129,9 @@
 
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # Support is limited to the Turing and later architectures. Full list of
+    # supported GPUs is at:
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
     # Only available from driver 515.43.04+
     # Currently alpha-quality/buggy, so false is currently the recommended setting.
     open = false;
