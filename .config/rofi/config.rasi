@@ -1,1 +1,14 @@
-@theme "/nix/store/v3jv2bzy81g5c5gn0ycmr3v74amyk2wc-rofi-1.7.5/share/rofi/themes/Arc-Dark.rasi"
+configuration {               
+/*  modes: "window,run,ssh,drun";*/
+/*  location: 0;*/
+/*  yoffset: 0;*/
+/*  xoffset: 0;*/
+/*  fixed-num-lines: true;*/
+/*  ml-row-down: "ScrollDown";*/                                                                                        
+/*  me-select-entry: "MousePrimary";*/                                                                                  
+/*  me-accept-entry: "MouseDPrimary";*/                                                                                 
+/*  me-accept-custom: "Control+MouseDPrimary";*/ 
+	show-icons: true;
+	font: "San Fransisco 12";
+}
+@theme "/nix/store/v3jv2bzy81g5c5gn0ycmr3v74amyk2wc-rofi-1.7.5/share/rofi/themes/DarkBlue.rasi"

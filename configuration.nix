@@ -14,19 +14,23 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Allow to run .AppImage as .bin
+  boot.binfmt.registrations.appimage = {
+    wrapInterpreterInShell = false;
+    interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+    recognitionType = "magic";
+    offset = 0;
+    mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
+    magicOrExtension = ''\x7fELF....AI\x02'';
+  };
+
   networking.hostName = "nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
 
   time.timeZone = "Asia/Jakarta";
-
   i18n.defaultLocale = "en_US.UTF-8";
+  sound.enable = true;
 
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  # Change to your name
   users.users.stan = {
     isNormalUser = true;
     description = "stan";
@@ -37,66 +41,7 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.pulseaudio = true;
 
-  # All necessary packages recommended by https://wiki.hyprland.org/
-  environment.systemPackages = with pkgs; [
-	appimage-run # Paired with appimage-run to run .AppImage files
-	brave # browser
-	blueberry #bluetooth
-	dunst
-	git
-	hyprcursor
-	hypridle
-	hyprlock
-	hyprpaper
-	hyprpicker
-	kitty
-	libsecret # Paired with appimage-run to run .AppImage files
-	neofetch
-	networkmanagerapplet
-	pipewire
-	polkit # Priviledge management
-	rofi
-	rofi-bluetooth
-	rofi-screenshot
-	rofi-power-menu
-	vim
-	waybar # Alternative: eww
-	webcord
-	wireplumber
-  	wget
-	xdg-desktop-portal-gtk
-	xdg-desktop-portal-hyprland
-  ];
-
-  programs = {
-	appimage.binfmt = true; # .AppImage files as executable bin
-	light.enable = true;
-	hyprland.enable = true;
-	sway.enable = true;
-	sway.wrapperFeatures.gtk = true;
-	thunar.enable = true; #File managers
-	xfconf.enable = true; #Required for Thunar https://nixos.wiki/wiki/Thunar
-  };
-
-  programs.bash.shellAliases = {
-  };
-
-  # Nvidia: Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
-
-  services.gnome.gnome-keyring.enable = true;
-  services.pipewire = {
-	enable = true;
-	audio.enable = true;
-	pulse.enable = true;
-	alsa.enable = true;
-    alsa.support32Bit = true;
-	jack.enable = true;
-	wireplumber.enable = true;
-  };
-
-  # Some apps can't open file if xdg.portal is not enabled
-  # Don't forget to restart your xdg-desktop-portal-gtk.service
+  # lets other applications communicate with the compositor through D-Bus.
   xdg.portal = {
     xdgOpenUsePortal = true;
     enable = true;
@@ -106,12 +51,80 @@
     ];
   };
 
-  hardware = {
-    bluetooth.enable = true;
-    opengl.enable = true; # Nvidia: Enable opengl for
+  environment.systemPackages = with pkgs; [
+	appimage-run # Complementary to libsecret
+	brave
+	blueberry # Bluetooth GUI
+	dunst # Notification
+	git
+	grimblast # Screenshot
+	hyprlock
+	hyprpaper
+	kitty 
+	libsecret # Complementary to appimage-run
+	neofetch
+	pavucontrol # Pulseaudio GUI
+	pipewire # Complementary to wireplumber for Pulseaudio Alternative
+	polkit
+	pulseaudio
+	rofi
+	spotify
+	vim
+	waybar
+	webcord
+	wireplumber # Complementary to pipewire for Pulseaudio Alternative
+  	wget
+	xdg-desktop-portal-gtk
+	xdg-desktop-portal-hyprland
+  ];
+
+  programs = {
+	appimage.binfmt = true;
+	light.enable = true;
+	hyprland.enable = true;
+	thunar.enable = true;
+	xfconf.enable = true; #Required for Thunar
   };
 
-  # Nvidia
+  programs.bash.shellAliases = {
+   anytype= "env LD_LIBRARY_PATH='/nix/store/3l6cxn1pgrafkmqkmmqbmcdnbv911ip6-libsecret-0.21.4/lib' appimage-run ~/Apps/Anytype.AppImage";
+   nixconfig = "sudo vi /etc/nixos/configuration.nix";
+   nixrebuild = "sudo nixos-rebuild switch";
+  };
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
+
+  # Load nvidia driver for Xorg and Wayland
+  services.gnome.gnome-keyring.enable = true;
+  services.xserver.videoDrivers = ["nvidia"];
+  #layout setting
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
+  #Sound services
+  services.pipewire = {
+	enable = true;
+	audio.enable = true;
+	pulse.enable = true;
+	alsa.enable = true;
+    	alsa.support32Bit = true;
+	# jack.enable = true;
+	wireplumber.enable = true;
+  };
+
+  hardware = {
+    bluetooth.enable = true;
+    opengl.enable = true;
+    pulseaudio.enable = false;
+  };
+
   hardware.nvidia = {
 
     # Modesetting is required.
@@ -119,7 +132,7 @@
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
     # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
     # of just the bare essentials.
     powerManagement.enable = false;
 
@@ -129,9 +142,9 @@
 
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of
-    # supported GPUs is at:
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
+    # Support is limited to the Turing and later architectures. Full list of 
+    # supported GPUs is at: 
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
     # Only available from driver 515.43.04+
     # Currently alpha-quality/buggy, so false is currently the recommended setting.
     open = false;
@@ -170,5 +183,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }
