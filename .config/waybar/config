@@ -1,0 +1,74 @@
+// -*- mode: jsonc -*-
+{
+    "modules-left": [
+	"custom/os_button",
+	"hyprland/window",
+    ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        "network",
+        "battery",
+        "pulseaudio",
+	"pulseaudio/slider",
+	"backlight",
+	"backlight/slider",
+        "clock",
+    ],
+
+	// Modules-left
+	"custom/os_button": {
+		"format": "	",
+		"tooltip-format": "Nix"
+	},
+	"hyprland/window": {
+		"format": "{title}",
+	},
+	// Modules-center
+	"hyprland/workspaces": {
+	},
+
+	// Modules-right
+    "pulseaudio": {
+        "format": "Audio: {volume}%",
+        "format-muted": "Audio: Muted",
+	"tooltip-format": "Audio: {volume}%",
+        "on-click": "pavucontrol",
+    },
+    "network": {
+        "format": "Wifi: {signalStrength}% ",
+        "format-disconnected": "Wifi: ?",
+        "tooltip-format": "{essid}",
+        "tooltip-format-disconnected": "No internet",
+	"on-click": "kitty && nmcli device wifi list"
+    },
+    "clock": {
+	"format": "{:%d.%m.%Y %R}",
+	"tooltip-format": "<tt><small>{calendar}</small></tt>",
+	"calendar": {
+                    "mode"          : "year",
+                    "mode-mon-col"  : 3,
+                    "weeks-pos"     : "right",
+                    "on-scroll"     : 1,
+                    "format": {
+                              "months":     "<span color='#ffead3'><b>{}</b></span>",
+                              "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                              "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                              "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                              "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                              }
+                    },
+        "actions":  {
+                    "on-click-right": "mode",
+                    "on-scroll-up": "shift_up",
+                    "on-scroll-down": "shift_down"
+                    }
+    },
+    "backlight": {
+        "format": "Light: {percent}%",
+    },
+    "battery": {
+        "format": "Power: {capacity}%",
+    },
+}

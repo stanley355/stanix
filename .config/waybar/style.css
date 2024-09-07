@@ -1,0 +1,62 @@
+
+* {
+	font-family: "San Francisco";
+	font-size: 1rem;
+}
+
+window#waybar {
+    background: transparent;
+    color: #FFF;
+}
+
+#custom-os_button {
+	padding: 0 10px;
+  background-image: url('./assets/nix.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+#workspaces button {
+	color: #FFf;
+}
+#workspaces button:hover {
+	background: #FFF;
+	color: #000;
+	border-radius: 0.5rem;
+}
+#workspaces button.active {
+	background: #FFF;
+	color: #000;
+	border-radius: 0.5rem;
+}
+
+#pulseaudio,
+#pulseaudio-slider,
+#backlight,
+#backlight-slider,
+#battery,
+#network,
+#clock {
+	background: #FFF;
+	color: #000;
+	border-radius: 0.5rem;
+	padding: 0 0.5rem;
+	margin: 0 0.5rem;
+}
+
+#pulseaudio-slider, #backlight-slider {
+	padding: 0 0.75rem;
+}
+
+#pulseaudio-slider trough, #backlight-slider trough {
+	min-height: 1rem;
+	min-width: 3rem;
+    border-radius: 1rem;
+    background-color: black;
+}
+#pulseaudio-slider highlight, #backlight-slider highlight {
+    border-radius: 1rem;
+    background-color: black;
+}
+
